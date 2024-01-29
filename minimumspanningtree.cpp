@@ -1,4 +1,6 @@
-#include<bits/stdc++.h>
+
+#include <bits/stdc++.h>
+
 using namespace std;
 using ll = long long;
 
@@ -7,7 +9,7 @@ struct edge{
     int w;
 };
 vector <edge> canh;
-const int maxn =1001;
+const int maxn =99999;
 int n,m;
 int parent[maxn];
 int sz[maxn];
@@ -20,7 +22,7 @@ void make_set(){
     }
 }
 
-void find(int v)
+int find(int v)
 {
     if(v==parent[v])
     {
@@ -48,17 +50,20 @@ bool Union(int a , int b)
 }
 
 void input()
-{   cout << n << m;
+{   cin >> n >> m;
     for(int i=0;i<m;i++)
     {   int x,y,z;
-        cout << x << y << z;
-        edge e= edge(x,y,z); // add x,y,z to struct e 
+        cin >> x >> y >> z;
+        edge e;
+        e.u=x; 
+        e.v=y;
+        e.w=z;
         canh.push_back(e);
     }
 }
 
 bool cmp(edge a, edge b){
-    return a.z<b.z; // length a <b return true
+    return a.w<b.w; // length a <b return true
 }
 void kruskal()
 {
@@ -66,30 +71,34 @@ void kruskal()
     vector<edge> minspantree;
     int d=0; //lengh of mst
     //B2 sort canh ngan nhat
-    sort(canh.begin(),canh.end(),cmd) // sort setting cmp
+    sort(canh.begin(),canh.end(),cmp); // sort setting cmp
     //B3 lap
-    for(int i=0;i<m;i++)
+    for(int i=0; i<m;i++)
     {
         if(minspantree.size()==n-1) break; // dinh -1 -> break
         edge e=canh[i];
-        if(Union(e.x,e.y))  // 2 dinh cua canh e[i] k tao chu trinh
+        if(Union(e.u,e.v))  // 2 dinh cua canh e[i] k tao chu trinh
         {
             minspantree.push_back(e);
-            d+=e.z;
+            d+=e.w;
         }
         
     }
+    /* 
     if(minspantree.size()!=n-1) cout<< " do thi k lien thong \n"; 
    for(auto it : minspantree)
    {
-    cout<< it.x << it.y << it.z ;
+    cout<< it.u << it.v << it.w ;
    }
+    */
+   cout << d;
 }
 
 
 int main()
 {
     input();
+    make_set();
     kruskal();
 
     return 0;
